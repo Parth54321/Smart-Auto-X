@@ -363,15 +363,6 @@ pip install -r requirements.txt
 
 ---
 
-## 💡 Ideas for Future Improvements
-
-- [ ] Smoother steering with PID control instead of discrete commands
-- [ ] Obstacle detection with an ultrasonic sensor
-- [ ] Browser-based live video preview
-- [ ] Adaptive thresholds for changing light conditions
-
----
-
 <div align="center">
 
 **Built with ❤️ using Python, OpenCV and ESP32**
