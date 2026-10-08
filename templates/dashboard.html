@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- =========================================================
+       dashboard.html  –  Main Control Dashboard
+       =========================================================
+       This page is shown AFTER vehicle selection.
+       It contains:
+         - Vehicle name + status
+         - START / STOP / OVERTAKE buttons
+         - Vehicle status cards (lane, direction, running state)
+         - Signal / log panel
+       NOTE: No camera feed is shown here.
+             The camera runs locally via OpenCV (cv2.imshow)
+  ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lane Control Dashboard – {{ vehicle }}</title>
+  <link rel="stylesheet" href="/static/style.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ── Animated background ────────────────────────────────── -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- ── Top Navigation Bar ────────────────────────────────── -->
+  <nav class="topnav">
+    <div class="topnav-left">
+      <a href="/" class="back-btn" id="backBtn">← Change Vehicle</a>
+    </div>
+    <div class="topnav-center">
+      <span class="nav-title">
+        {% if vehicle == "CAR" %}🚗{% else %}🚛{% endif %}
+        &nbsp;{{ vehicle }} CONTROL DASHBOARD
+      </span>
+    </div>
+    <div class="topnav-right">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusLabel" class="status-label">OFFLINE</span>
+    </div>
+  </nav>
+
+  <!-- ── Main Dashboard Layout ─────────────────────────────── -->
+  <main class="dashboard-main">
+
+    <!-- ─ LEFT COLUMN: Status Cards ──────────────────────── -->
+    <section class="status-section">
+      <h2 class="section-title">Vehicle Status</h2>
+
+      <!-- Running State Card -->
+      <div class="status-card" id="runningCard">
+        <div class="card-icon">⚡</div>
+        <div class="card-info">
+          <div class="card-label">System State</div>
+          <div class="card-value" id="runningValue">STOPPED</div>
+        </div>
+      </div>
+
+      <!-- Current Lane Card -->
+      <div class="status-card" id="laneCard">
+        <div class="card-icon">🛣️</div>
+        <div class="card-info">
+          <div class="card-label">Current Lane</div>
+          <div class="card-value" id="laneValue">—</div>
+        </div>
+      </div>
+
+      <!-- Direction Card -->
+      <div class="status-card" id="dirCard">
+        <div class="card-icon">🧭</div>
+        <div class="card-info">
+          <div class="card-label">Direction</div>
+          <div class="card-value" id="dirValue">—</div>
+        </div>
+      </div>
+
+      <!-- Vehicle Card -->
+      <div class="status-card">
+        <div class="card-icon">{% if vehicle == "CAR" %}🚗{% else %}🚛{% endif %}</div>
+        <div class="card-info">
+          <div class="card-label">Vehicle</div>
+          <div class="card-value">{{ vehicle }}</div>
+        </div>
+      </div>
+
+      <!-- Preferred Lane Card -->
+      <div class="status-card preferred-card">
+        <div class="card-icon">🎯</div>
+        <div class="card-info">
+          <div class="card-label">Target Lane</div>
+          <div class="card-value preferred-lane">
+            {% if vehicle == "CAR" %}RIGHT{% else %}LEFT{% endif %}
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ─ CENTER / RIGHT: Controls + Logs ─────────────────── -->
+    <section class="control-section">
+
+      <!-- Control Buttons Panel -->
+      <div class="controls-panel">
+        <h2 class="section-title">Controls</h2>
+
+        <div class="btn-row">
+          <!-- START Button -->
+          <button class="ctrl-btn start-btn" id="startBtn" onclick="startSystem()">
+            <span class="btn-icon">▶</span>
+            <span class="btn-text">START</span>
+          </button>
+
+          <!-- STOP Button -->
+          <button class="ctrl-btn stop-btn" id="stopBtn" onclick="stopSystem()" disabled>
+            <span class="btn-icon">■</span>
+            <span class="btn-text">STOP</span>
+          </button>
+        </div>
+
+        <!-- OVERTAKE Button (full width) -->
+        <button class="ctrl-btn overtake-btn" id="overtakeBtn" onclick="sendOvertake()" disabled>
+          <span class="btn-icon">⚡</span>
+          <span class="btn-text">OVERTAKE</span>
+        </button>
+
+        <!-- Note: Camera opens locally, not here -->
+        <div class="camera-notice">
+          <span>📷</span>
+          <span>Camera feed opens locally in an OpenCV window on your computer screen.</span>
+        </div>
+      </div>
+
+      <!-- Signal / Log Panel -->
+      <div class="log-panel">
+        <div class="log-header">
+          <h2 class="section-title">Signal Logs</h2>
+          <button class="clear-btn" onclick="clearLogs()">Clear</button>
+        </div>
+
+        <!-- Log entries appear here (newest at top) -->
+        <div class="log-box" id="logBox">
+          <div class="log-entry log-info">
+            <span class="log-time">--:--:--</span>
+            <span class="log-tag">[INFO]</span>
+            <span class="log-msg">Waiting for system start...</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Pass vehicle name to JavaScript -->
+  <script>
+    // This variable is set by Flask (Jinja2 template)
+    const VEHICLE = "{{ vehicle }}";
+  </script>
+  <script src="/static/script.js"></script>
+</body>
+</html>

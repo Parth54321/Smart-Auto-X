@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- =========================================================
+       index.html  –  Vehicle Selection Homepage
+       =========================================================
+       This is the FIRST page the user sees.
+       It shows two buttons: CAR and TRUCK.
+       When clicked, it saves the selection and opens the dashboard.
+  ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Lane Control – Select Vehicle</title>
+  <link rel="stylesheet" href="/static/style.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ── Animated background particles ─────────────────────── -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <!-- ── Main container ────────────────────────────────────── -->
+  <div class="home-container">
+
+    <!-- Header / Title -->
+    <div class="home-header">
+      <div class="home-badge">AI-POWERED</div>
+      <h1 class="home-title">Smart Vehicle<br/><span class="accent">Lane Control</span></h1>
+      <p class="home-subtitle">
+        Select your vehicle type to begin.<br/>
+        The system will detect lanes and guide the vehicle automatically.
+      </p>
+    </div>
+
+    <!-- Vehicle Selection Cards -->
+    <div class="vehicle-grid" id="vehicleGrid">
+
+      <!-- CAR Card -->
+      <div class="vehicle-card" id="carCard" onclick="selectVehicle('CAR')">
+        <div class="vehicle-icon">🚗</div>
+        <div class="vehicle-name">CAR</div>
+        <div class="vehicle-desc">
+          Preferred lane: <strong>RIGHT</strong><br/>
+          Auto lane correction active
+        </div>
+        <div class="vehicle-lane-tag">RIGHT LANE</div>
+        <div class="select-btn">SELECT CAR →</div>
+      </div>
+
+      <!-- TRUCK Card -->
+      <div class="vehicle-card truck-card" id="truckCard" onclick="selectVehicle('TRUCK')">
+        <div class="vehicle-icon">🚛</div>
+        <div class="vehicle-name">TRUCK</div>
+        <div class="vehicle-desc">
+          Preferred lane: <strong>LEFT</strong><br/>
+          Auto lane correction active
+        </div>
+        <div class="vehicle-lane-tag truck-lane">LEFT LANE</div>
+        <div class="select-btn">SELECT TRUCK →</div>
+      </div>
+
+    </div>
+
+    <!-- Info strip at bottom -->
+    <div class="home-info-bar">
+      <span>📡 ESP32-CAM Stream</span>
+      <span>⚙️ OpenCV Lane Detection</span>
+      <span>🔁 Auto Motor Control</span>
+      <span>📊 Real-time Logs</span>
+    </div>
+
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
