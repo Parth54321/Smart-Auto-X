@@ -374,7 +374,7 @@ pip install -r requirements.txt
 
 <div align="center">
 
-**Built with 💙 using Python, OpenCV and ESP32**
+**Built with ❤️ using Python, OpenCV and ESP32**
 
 ⭐ If this project helped you, consider giving it a star!
 
